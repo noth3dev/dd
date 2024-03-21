@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>파일 종류 선택기</title>
+<style>
+    .container {
+        max-width: 800px;
+        margin: 50px auto;
+        text-align: center;
+    }
+
+    select {
+        padding: 10px;
+        font-size: 16px;
+        margin-bottom: 20px;
+    }
+
+    #result {
+        margin-top: 20px;
+        overflow-x: auto; /* 가로 스크롤을 추가하여 표 넘치는 경우 스크롤 사용 */
+    }
+
+    table {
+        width: 100%;
+        border-collapse: collapse;
+    }
+
+    th, td {
+        border: 1px solid #ddd;
+        padding: 8px;
+        text-align: left;
+    }
+
+    th {
+        background-color: #f2f2f2;
+    }
+
+    /* 추가된 CSS */
+    option[data-description] {
+        position: relative;
+    }
+
+    option[data-description]:hover::before {
+        content: attr(data-description);
+        display: block;
+        position: absolute;
+        background: #f1f1f1;
+        border: 1px solid #ccc;
+        padding: 5px;
+        border-radius: 5px;
+        margin-top: -30px;
+        margin-left: 150px;
+        width: max-content;
+        z-index: 999; /* 화면 위로 나타나도록 설정 */
+    }
+    .container {
+    max-width: 800px;
+    margin: 50px auto;
+    text-align: center;
+}
+
+select {
+    padding: 10px;
+    font-size: 16px;
+    margin-bottom: 20px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    background-color: #f9f9f9;
+    width: 100%;
+    max-width: 400px;
+}
+
+#result {
+    margin-top: 20px;
+    overflow-x: auto;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+th, td {
+    border: 1px solid #ddd;
+    padding: 8px;
+    text-align: left;
+}
+
+th {
+    background-color: #f2f2f2;
+}
+
+</style>
+</head>
+<body>
+<div class="container">
+    <h1>파일 종류 선택기</h1>
+    <select id="fileType" onchange="displayFileType()">
+        <option value="none">파일 종류를 선택하세요</option>
+        <option value="image" data-description="JPEG (.jpg, .jpeg) - Joint Photographic Experts Group
+PNG (.png) - Portable Network Graphics
+GIF (.gif) - Graphics Interchange Format
+BMP (.bmp) - Bitmap Image File
+TIFF (.tiff, .tif) - Tagged Image File Format
+WebP (.webp) - WebP Image Format">이미지 파일</option>
+        <option value="document" data-description="텍스트 파일 (.txt) - 기본적인 텍스트 파일
+Microsoft Word (.doc, .docx) - Microsoft Word Document
+Microsoft Excel (.xls, .xlsx) - Microsoft Excel Spreadsheet
+Microsoft PowerPoint (.ppt, .pptx) - Microsoft PowerPoint Presentation
+PDF (.pdf) - Portable Document Format
+OpenDocument Format (.odt, .ods, .odp) - OpenDocument Format">문서 파일</option>
+        <option value="video" data-description="MP4 (.mp4) - MPEG-4 Part 14
+AVI (.avi) - Audio Video Interleave
+WMV (.wmv) - Windows Media Video
+MOV (.mov) - QuickTime File Format
+MKV (.mkv) - Matroska Multimedia Container
+FLV (.flv) - Flash Video Format">동영상 파일</option>
+        <option value="audio" data-description="MP3 (.mp3) - MPEG-1 Audio Layer III
+WAV (.wav) - Waveform Audio File Format
+FLAC (.flac) - Free Lossless Audio Codec
+AAC (.aac) - Advanced Audio Coding
+OGG (.ogg) - Ogg Vorbis
+WMA (.wma) - Windows Media Audio">오디오 파일</option>
+        <option value="programming" data-description="JavaScript (.js) - JavaScript Script File
+Python (.py) - Python Script File
+Java (.java) - Java Source Code File
+C (.c) - C Source Code File
+C++ (.cpp) - C++ Source Code File
+C# (.cs) - C# Source Code File
+HTML (.html, .htm) - Hypertext Markup Language
+CSS (.css) - Cascading Style Sheets
+JSON (.json) - JavaScript Object Notation
+XML (.xml) - eXtensible Markup Language">프로그래밍 파일</option>
+    </select>
+    <div id="result"></div>
+
+    <script>
+        function displayFileType() {
+            var selectBox = document.getElementById("fileType");
+            var selectedOption = selectBox.options[selectBox.selectedIndex];
+            var resultDiv = document.getElementById("result");
+
+            // 파일 형식이 선택된 경우에만 특징 표시
+            if (selectedOption.value !== "none" && selectedOption.dataset.description) {
+                var description = selectedOption.dataset.description.split('\n');
+                var tableHTML = "<table>";
+                tableHTML += "<tr><th>확장자</th><th>설명</th></tr>";
+                for (var i = 0; i < description.length; i++) {
+                    var parts = description[i].split(' - ');
+                    tableHTML += "<tr><td>" + parts[0] + "</td><td>" + parts[1] + "</td></tr>";
+                }
+                tableHTML += "</table>";
+                resultDiv.innerHTML = tableHTML;
+            } else {
+                resultDiv.innerHTML = "";
+            }
+        }
+    </script>
+</div>
+</body>
+</html>
